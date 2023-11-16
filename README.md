@@ -1,7 +1,7 @@
 # badgerDAPS
-A Brute Ratel log sorting tool, for the aspiring anti-LDAP query/Windows powershell hacker.
+A Brute Ratel LDAP query-log sorting tool, for the aspiring anti-LDAP query/Windows powershell hacker.
 ## Summary
-Maybe you hate running specific LDAP queries over and over again and drilling down into the data, or maybe you have a whole bunch of LDAP formatted Brute Ratel logs and you don't want to spend all of your time trying to sort and filter just to grab specific hostnames or OUs. With the LDAP output, you're going to have to remove brackets, spaces, etc to be able to use hostnames with other tooling. Simply put, this tool enhances your workflow to help you quickly grab hosts by OU from LDAP Sentinel queries. You can then use the sorted output files with CrackMapExec, SharpShares, etc. badgerDAPS natively removes disabled hosts too, which is useful for ensuring that you're not accidentally trying to interact with disabled machines on the network - which is undoubtedly a red flag.
+Maybe you hate running specific LDAP queries or drilling down into BR LDAP data. Filtering by OU and running multiple queries can be painstakingly tedious, not to mention the opposite of opsec-safe. If you're trying to get the queries correct but you find yourself making filtering mistakes, resulting in probably one too many LDAP commands sent to the beacon, this tool is meant to help you. In addition, with the BR LDAP output, you're going to have to remove brackets, spaces, etc, just to be able to use hostnames with other tooling. It's difficult to filter this data without coming up with custom sed or awk syntax, or trying to use the BR output with powershell just to pull the hostnames, and get all of them in a new line file. Simply put, this tool enhances your workflow to help you quickly grab hosts by OU from LDAP Sentinel queries. You can then use the sorted output files with CrackMapExec, SharpShares, etc. badgerDAPS natively removes disabled hosts too, which is useful for ensuring that you're not accidentally trying to interact with disabled machines on the network - which is undoubtedly a red flag that might burn your entire operation (so is pulling all objects with LDAP but we wont discuss that) -- spoiler alert, we will.
 
 QUICK NOTE: The logs that you filter from must:
 - Be output from Brute Ratel's LDAP functionality
@@ -79,7 +79,7 @@ Filtering complete. 217 results have been written to Servers.txt
 
 Enter an OU number, or press 'x' to exit.
 ```
-As you can see, you can create specific files for multiple OUs. The end result is a neatly formatted, newline host file that can be passed to other red team tools.
+As you can see, seperate OU files can be created. The end result is a neatly formatted, newline host file that can be passed to other red team tools.
 ```
 └─$ cat Servers.txt 
 SERVER-1-FOO
@@ -97,3 +97,9 @@ N
 
 Filtering complete. 857 results have been written to all-results.txt
 ```
+## FAQ
+- Why go through all of this and not just use LDAP options properly to grab hostnames of non-disabled machines, if that's what you ultimately want?
+  You'll still have spacing, brackets, and a non-formatted list. Even if you filter and drill down to what you want, you'll still have to work at it to get a newline list. Sometimes when I'm operating, I just want to quickly move onto taking some hostnames for specific OUs and passing it to CME or SharpShares. This mitigates at least a certain level of work associated.
+
+- I can do this better. Why don't you just use: (insert some windows ldap filtering method utilizing some estoric python package that i've never heard of)
+  Then do it better. No one is stopping you. This method works for me, and might help some other people too.
