@@ -11,7 +11,8 @@ Let's say you goofed up and didn't filter by specific OU, and you ran this beaut
 ```
 sentinel domain (&(objectCategory=computer)(objectClass=computer)name=*)
 ```
-Well, the output is going to be extensive. It might look something like this, but with thousands object queries:
+Well, the output is going to be extensive. It might look something like this, but with thousands of object queries:
+(82K lines of output to be exact in my case)
 ```
 +-------------------------------------------------------------------+
 [+] objectClass                        : top; person; organizationalPerson; user; computer
